@@ -26,6 +26,7 @@ const Grid = ({
         padding: "15px",
         margin: "10px",
         lineHeight: "0.5",
+        userSelect: "none",
       }}
       onMouseDown={() => setIsMouseDown(true)}
       onMouseUp={() => setIsMouseDown(false)}
