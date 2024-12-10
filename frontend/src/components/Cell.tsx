@@ -1,4 +1,10 @@
-const Cell = ({ status = 0, onClick }) => {
+const Cell = ({
+  status = 0,
+  onClick,
+}: {
+  status: 0 | 1 | 2;
+  onClick: () => void;
+}) => {
   return (
     <div
       style={{

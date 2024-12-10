@@ -1,4 +1,12 @@
-const InputContainer = ({ value, onChange, placeholder = "" }) => {
+const Input = ({
+  value,
+  onChange,
+  placeholder = "",
+}: {
+  value: number;
+  onChange: (value: number) => void;
+  placeholder: string;
+}) => {
   return (
     <div
       style={{
@@ -22,4 +30,4 @@ const InputContainer = ({ value, onChange, placeholder = "" }) => {
   );
 };
 
-export default InputContainer;
+export default Input;

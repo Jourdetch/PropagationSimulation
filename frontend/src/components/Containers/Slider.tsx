@@ -1,10 +1,17 @@
-const SliderContainer = ({
+const Slider = ({
   value,
   onChange,
   label_before = "",
   label_after = "",
   min = 0,
   max = 100,
+}: {
+  value: number;
+  onChange: (value: number) => void;
+  label_before?: string;
+  label_after?: string;
+  min?: number;
+  max?: number;
 }) => {
   return (
     <div
@@ -33,4 +40,4 @@ const SliderContainer = ({
   );
 };
 
-export default SliderContainer;
+export default Slider;

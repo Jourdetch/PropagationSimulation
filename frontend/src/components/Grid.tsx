@@ -1,9 +1,18 @@
-import "./cell";
-import Cell from "./cell";
+import { Status } from "../App";
+import Cell from "./Cell";
 
-const Grid = ({ height, width, cellStatus = [], onToggleCell = () => {} }) => {
-  const getCellStatus = (pos_x, pos_y) => {
-    // return firePosition.includes(`${pos_x}_${pos_y}`);
+const Grid = ({
+  height,
+  width,
+  cellStatus = {},
+  onToggleCell = () => {},
+}: {
+  height: number;
+  width: number;
+  cellStatus: { [key: string]: Status };
+  onToggleCell?: (x: number, y: number) => void;
+}) => {
+  const getCellStatus = (pos_x: number, pos_y: number) => {
     return cellStatus[`${pos_x}_${pos_y}`];
   };
 

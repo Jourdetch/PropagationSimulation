@@ -1,9 +1,15 @@
 import { useState } from "react";
-import Grid from "./grid";
-import SliderContainer from "./sliderContainer";
-import Button from "./button";
+import Grid from "./Grid";
+import Slider from "./Containers/Slider";
+import Button from "./Containers/Button";
 
-const ResultSimulation = ({ data, handleReset }) => {
+const SimulationResult = ({
+  data,
+  handleReset,
+}: {
+  data: any;
+  handleReset: () => void;
+}) => {
   const [level, setLevel] = useState(0);
   console.log(data);
   console.log(data.data.length);
@@ -16,7 +22,7 @@ const ResultSimulation = ({ data, handleReset }) => {
             width={data.width}
             cellStatus={data.data[level]}
           />
-          <SliderContainer
+          <Slider
             value={level}
             onChange={setLevel}
             label_before="Level"
@@ -24,12 +30,11 @@ const ResultSimulation = ({ data, handleReset }) => {
           />
         </>
       ) : (
-        "no result"
+        "Error : no result"
       )}
-      Result
       <Button label={"Reset"} onClick={handleReset} />
     </>
   );
 };
 
-export default ResultSimulation;
+export default SimulationResult;
