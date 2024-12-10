@@ -12,16 +12,23 @@ use Symfony\Component\Yaml\Yaml;
 class ApiController extends AbstractController
 {
     private function isInTheGrid($pos_x, $pos_y, $max_x, $max_y) {
+        # Check if a position x, y is valid by the grid definition
         return ($pos_x >= 0 && $pos_x < $max_x && $pos_y >= 0 && $pos_y < $max_y);
+    }
+
+    private function isNeutralCell($key, $arrayCellStatus) {
+        # Check cell status for a given key
+        # return true if the cell status is 0 or if the key do not exist in the array
+        return (!array_key_exists($key, $arrayCellStatus) || $arrayCellStatus[$key] === 0);
     }
 
     #[Route('/fire-simulation', name: 'fire_simulation')]
     public function index(Request $request): JsonResponse
     {
         // $config = Yaml::parseFile($this->getParameter('kernel.project_dir') . '/my_conf.yaml');
-        // dd($config);
+
         $data = json_decode($request->getContent(), true);
-        // dd($data);
+
         $height = $data["height"];
         $width = $data["width"];
         $propagation = $data["propagation"];
@@ -35,7 +42,6 @@ class ApiController extends AbstractController
             }
 
         }
-        // dd($initialCellStatus);
 
         $allCellStatus = [$initialCellStatus];
         $index = 0;
@@ -46,55 +52,54 @@ class ApiController extends AbstractController
                 # Check if cell is burning
                 if($status == 1) {
                     $progress = true;
-                    # Check surrounding
                     $position = explode("_", $key);
                     $x = $position[0];
                     $y = $position[1];
+                    # Check surrounding
                     if(($this->isInTheGrid($x - 1, $y, $height, $width))) {
-                        if(!array_key_exists($x - 1 . "_" . $y, $allCellStatus[$index]) || $allCellStatus[$index][$x - 1 . "_" . $y] === 0) {
+                        if($this->isNeutralCell($x - 1 . "_" . $y, $allCellStatus[$index])) {
                             if(rand(1, 100) < $propagation) {
                                 $newCellStatus[$x - 1 . "_" . $y] = 1;
                             }
                         }
                     }
                     if(($this->isInTheGrid($x + 1, $y, $height, $width))) {
-                        if(!array_key_exists($x + 1 . "_" . $y, $allCellStatus[$index]) || $allCellStatus[$index][$x + 1 . "_" . $y] === 0) {
+                        if($this->isNeutralCell($x + 1 . "_" . $y, $allCellStatus[$index])) {
                             if(rand(1, 100) < $propagation) {
                                 $newCellStatus[$x + 1 . "_" . $y] = 1;
                             }
                         }
                     }
                     if(($this->isInTheGrid($x, $y - 1, $height, $width))) {
-                        if(!array_key_exists($x . "_" . $y - 1, $allCellStatus[$index]) || $allCellStatus[$index][$x . "_" . $y - 1] === 0) {
+                        if($this->isNeutralCell($x . "_" . $y - 1, $allCellStatus[$index])) {
                             if(rand(1, 100) < $propagation) {
                                 $newCellStatus[$x . "_" . $y - 1] = 1;
                             }
                         }
                     }
                     if(($this->isInTheGrid($x, $y + 1, $height, $width))) {
-                        if(!array_key_exists($x . "_" . $y + 1, $allCellStatus[$index]) || $allCellStatus[$index][$x . "_" . $y + 1] === 0) {
+                        if($this->isNeutralCell($x . "_" . $y + 1, $allCellStatus[$index])) {
                             if(rand(1, 100) < $propagation) {
                                 $newCellStatus[$x . "_" . $y + 1] = 1;
                             }
                         }
                     }
+                    # The cell is now burnt
                     $newCellStatus[$x . "_" . $y] = 2;
-                # Check is the cell is already burned
+
+                # Check is the cell is already burnt
                 } else if ($status == 2) {
-                    # Check surrounding
-                    $position = explode("_", $key);
-                    $x = $position[0];
-                    $y = $position[1];
-                    $newCellStatus[$x . "_" . $y] = 2;
+                    # Report the status in the next grid state
+                    $newCellStatus[$position] = 2;
                 }
             }
             if (!$progress) {
+                # No more burning cells
                 break;
             }
             $allCellStatus[] = $newCellStatus;
             $index = $index + 1;
         }
-        // dd($allCellStatus);
 
         $response = [
             "height" => $height,
