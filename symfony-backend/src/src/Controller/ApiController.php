@@ -90,7 +90,7 @@ class ApiController extends AbstractController
                 # Check is the cell is already burnt
                 } else if ($status == 2) {
                     # Report the status in the next grid state
-                    $newCellStatus[$position] = 2;
+                    $newCellStatus[$key] = 2;
                 }
             }
             if (!$progress) {
