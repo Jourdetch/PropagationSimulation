@@ -24,7 +24,7 @@ const Input = ({
         onChange={(event) => {
           onChange(Number(event.target.value));
         }}
-        style={{ fontSize: "1.8em" }}
+        style={{ fontSize: "1.2em" }}
       />
     </div>
   );
