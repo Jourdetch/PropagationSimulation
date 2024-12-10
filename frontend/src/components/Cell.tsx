@@ -1,9 +1,9 @@
 const Cell = ({
   status = 0,
-  onClick,
+  toggleCell,
 }: {
   status: 0 | 1 | 2;
-  onClick: () => void;
+  toggleCell: () => void;
 }) => {
   return (
     <div
@@ -19,7 +19,7 @@ const Cell = ({
         border: "1px solid #333",
         fontSize: "18px",
       }}
-      onClick={onClick}
+      onMouseOver={toggleCell}
     ></div>
   );
 };
