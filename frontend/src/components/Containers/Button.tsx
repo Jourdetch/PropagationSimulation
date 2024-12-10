@@ -1,4 +1,11 @@
-const Button = ({ label, onClick }: { label: string; onClick: () => void }) => {
+const Button = ({
+  label,
+  onClick,
+  ...rest
+}: {
+  label: string;
+  onClick: () => void;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <div
       style={{
@@ -9,7 +16,7 @@ const Button = ({ label, onClick }: { label: string; onClick: () => void }) => {
         lineHeight: "0.35",
       }}
     >
-      <button onClick={onClick} style={{ fontSize: "0.8em" }}>
+      <button onClick={onClick} style={{ fontSize: "0.8em" }} {...rest}>
         {label}
       </button>
     </div>

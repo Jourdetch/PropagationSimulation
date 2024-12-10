@@ -13,6 +13,7 @@ function App() {
   const [cellStatus, setCellStatus] = useState<{ [key: string]: Status }>({});
   const [showResult, setShowResult] = useState<boolean>(false);
   const [response, setResponse] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     console.log(showResult);
@@ -31,6 +32,7 @@ function App() {
   };
 
   const sendRequest = async () => {
+    setIsLoading(true);
     const response = await fetch("http://localhost:8080/fire-simulation", {
       method: "POST",
       body: JSON.stringify({
@@ -45,8 +47,14 @@ function App() {
     });
 
     const data = await response.json();
+    setIsLoading(false);
     setShowResult(true);
     setResponse(data);
+  };
+
+  const handleGridReset = (resetData: boolean = false) => {
+    setShowResult(false);
+    resetData && setCellStatus({});
   };
 
   return (
@@ -73,10 +81,7 @@ function App() {
         >
           {showResult ? (
             <>
-              <SimulationResult
-                data={response}
-                handleReset={() => setShowResult((prev) => !prev)}
-              />
+              <SimulationResult data={response} handleReset={handleGridReset} />
             </>
           ) : (
             <>
@@ -109,7 +114,12 @@ function App() {
                 onToggleCell={toggleCell}
                 cellStatus={cellStatus}
               />
-              <Button label={"Simulate"} onClick={sendRequest} />
+              <Button
+                label={isLoading ? "Loading ..." : "Simulate"}
+                disabled={isLoading}
+                onClick={sendRequest}
+              />
+              <Button label={"Reset"} onClick={() => handleGridReset(true)} />
             </>
           )}
         </div>

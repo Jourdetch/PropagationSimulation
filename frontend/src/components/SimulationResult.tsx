@@ -8,7 +8,7 @@ const SimulationResult = ({
   handleReset,
 }: {
   data: any;
-  handleReset: () => void;
+  handleReset: (resetData: boolean) => void;
 }) => {
   const [level, setLevel] = useState(0);
   console.log(data);
@@ -32,7 +32,15 @@ const SimulationResult = ({
       ) : (
         "Error : no result"
       )}
-      <Button label={"Reset"} onClick={handleReset} />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        <Button label={"Retry"} onClick={() => handleReset(false)} />
+        <Button label={"Reset"} onClick={() => handleReset(true)} />
+      </div>
     </>
   );
 };
