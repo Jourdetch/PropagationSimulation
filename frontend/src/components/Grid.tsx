@@ -47,8 +47,12 @@ const Grid = ({
               <Cell
                 key={`cell_${row}-${column}`}
                 status={getCellStatus(row, column)}
-                toggleCell={() => {
-                  isMouseDown && onToggleCell(row, column);
+                toggleCell={(onHover) => {
+                  if (onHover) {
+                    isMouseDown && onToggleCell(row, column);
+                  } else {
+                    onToggleCell(row, column);
+                  }
                 }}
               />
             ))}
