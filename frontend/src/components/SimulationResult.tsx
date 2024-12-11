@@ -2,17 +2,16 @@ import { useState } from "react";
 import Grid from "./Grid";
 import Slider from "./Containers/Slider";
 import Button from "./Containers/Button";
+import { Response } from "../App";
 
 const SimulationResult = ({
   data,
   handleReset,
 }: {
-  data: any;
+  data: Response | null;
   handleReset: (resetData: boolean) => void;
 }) => {
-  const [level, setLevel] = useState(0);
-  console.log(data);
-  console.log(data.data.length);
+  const [level, setLevel] = useState<number>(0);
   return (
     <>
       {data ? (

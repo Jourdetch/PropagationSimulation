@@ -6,14 +6,20 @@ import Button from "./components/Containers/Button";
 import SimulationResult from "./components/SimulationResult";
 
 export type Status = 0 | 1 | 2;
+export type Response = {
+  height: number;
+  width: number;
+  propagation: number;
+  data: { [key: string]: Status }[];
+};
 function App() {
   const [height, setHeight] = useState<number>(40);
   const [width, setWidth] = useState<number>(60);
   const [propagationChance, setPropagationChance] = useState<number>(40);
   const [cellStatus, setCellStatus] = useState<{ [key: string]: Status }>({});
   const [showResult, setShowResult] = useState<boolean>(false);
-  const [response, setResponse] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [response, setResponse] = useState<null | Response>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     console.log(showResult);
