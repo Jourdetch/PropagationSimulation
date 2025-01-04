@@ -41,28 +41,28 @@ class Simulation
                     # Check surrounding
                     if(($this->isInTheGrid($x - 1, $y, $height, $width))) {
                         if($this->isNeutralCell($x - 1 . "_" . $y, $allCellStatus[$index])) {
-                            if(rand(1, 100) < $propagation) {
+                            if(rand(1, 100) <= $propagation) {
                                 $newCellStatus[$x - 1 . "_" . $y] = 1;
                             }
                         }
                     }
                     if(($this->isInTheGrid($x + 1, $y, $height, $width))) {
                         if($this->isNeutralCell($x + 1 . "_" . $y, $allCellStatus[$index])) {
-                            if(rand(1, 100) < $propagation) {
+                            if(rand(1, 100) <= $propagation) {
                                 $newCellStatus[$x + 1 . "_" . $y] = 1;
                             }
                         }
                     }
                     if(($this->isInTheGrid($x, $y - 1, $height, $width))) {
                         if($this->isNeutralCell($x . "_" . $y - 1, $allCellStatus[$index])) {
-                            if(rand(1, 100) < $propagation) {
+                            if(rand(1, 100) <= $propagation) {
                                 $newCellStatus[$x . "_" . $y - 1] = 1;
                             }
                         }
                     }
                     if(($this->isInTheGrid($x, $y + 1, $height, $width))) {
                         if($this->isNeutralCell($x . "_" . $y + 1, $allCellStatus[$index])) {
-                            if(rand(1, 100) < $propagation) {
+                            if(rand(1, 100) <= $propagation) {
                                 $newCellStatus[$x . "_" . $y + 1] = 1;
                             }
                         }
